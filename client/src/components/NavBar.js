@@ -69,6 +69,7 @@ const NavBar = () => {
                     <Toolbar disableGutters>
                         <Box sx={{ mr: 1 }}>
                             <IconButton
+                                sx={{ p: 0 }}
                                 size='large'
                                 color='inherit'
                                 onClick={() => setIsOpen(true)}
@@ -96,7 +97,7 @@ const NavBar = () => {
                                 display: { xs: 'flex', md: 'none' },
                             }}
                         >
-                            You
+                            Yummy! &nbsp;&nbsp;&nbsp;
                         </Typography>
                         {!currentUser ? (
                             <React.Fragment>
