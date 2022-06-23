@@ -9,7 +9,7 @@ const GoogleOneTapLogin = () => {
 
     const googleButton = useRef(null);
 
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState('flex');
 
     const handleResponse = (response) => {
         const token = response.credential;
@@ -30,16 +30,17 @@ const GoogleOneTapLogin = () => {
     };
 
     const handleGoogleLogIn = () => {
-        setDisabled(true);
+        setDisabled('none');
         try {
             window.google.accounts.id.initialize({
                 client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-                ux_mode: 'redirect',
+                ux_mode: 'popup',
                 callback: handleResponse,
             });
             window.google.accounts.id.renderButton(googleButton.current, {
                 theme: 'outline',
                 size: 'large',
+                text: 'continue_with',
             });
             window.google.accounts.id.prompt((notification) => {
                 if (notification.isNotDisplayed()) {
@@ -49,15 +50,9 @@ const GoogleOneTapLogin = () => {
                             open: true,
                             severity: 'error',
                             message:
-                                'Please allow third-party cookies for working of authentication.',
+                                "Please allow third-party cookies for ONE TAP SIGN IN or else use the new rendered button of 'Continue with Google'",
                         },
                     });
-                }
-                if (
-                    notification.isSkippedMoment() ||
-                    notification.isDismissedMoment()
-                ) {
-                    setDisabled(false);
                 }
             });
         } catch (error) {
@@ -78,7 +73,7 @@ const GoogleOneTapLogin = () => {
             <Button
                 variant='outlined'
                 startIcon={<Google />}
-                disabled={disabled}
+                sx={{ display: disabled }}
                 onClick={handleGoogleLogIn}
             >
                 LogIn with Google
