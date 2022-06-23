@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     AppBar,
     Box,
@@ -9,6 +9,7 @@ import {
     Typography,
 } from '@mui/material';
 import { Lock, Menu } from '@mui/icons-material';
+import DownloadIcon from '@mui/icons-material/Download';
 
 import { useValue } from '../context/ContextProvider';
 import UserIcons from './user/UserIcons';
@@ -21,6 +22,45 @@ const NavBar = () => {
     } = useValue();
 
     const [isOpen, setIsOpen] = useState(false);
+    const [supportsPWA, setSupportsPWA] = useState(false);
+    const [promptInstall, setPromptInstall] = useState(null);
+
+    useEffect(() => {
+        const handler = (e) => {
+            e.preventDefault();
+            setSupportsPWA(true);
+            setPromptInstall(e);
+        };
+        window.addEventListener('beforeinstallprompt', handler);
+    }, []);
+
+    const onInstallClick = () => {
+        if (!supportsPWA) {
+            alert(
+                'Either you have already installed the app or your browser does not support PWA :('
+            );
+            return;
+        }
+        promptInstall.prompt();
+    };
+
+    const renderInstallBtn = () => {
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            return;
+        } else {
+            return (
+                <Button
+                    startIcon={<DownloadIcon />}
+                    variant='outlined'
+                    color='inherit'
+                    sx={{ marginLeft: '16px' }}
+                    onClick={onInstallClick}
+                >
+                    Install
+                </Button>
+            );
+        }
+    };
 
     return (
         <React.Fragment>
@@ -45,7 +85,7 @@ const NavBar = () => {
                                 display: { xs: 'none', md: 'flex' },
                             }}
                         >
-                            You are welcome !
+                            Yummy Tummy !
                         </Typography>
                         <Typography
                             variant='h6'
@@ -59,17 +99,20 @@ const NavBar = () => {
                             You
                         </Typography>
                         {!currentUser ? (
-                            <Button
-                                color='inherit'
-                                startIcon={<Lock />}
-                                onClick={() =>
-                                    dispatch({
-                                        type: 'OPEN_LOGIN',
-                                    })
-                                }
-                            >
-                                Login
-                            </Button>
+                            <React.Fragment>
+                                <Button
+                                    color='inherit'
+                                    startIcon={<Lock />}
+                                    onClick={() =>
+                                        dispatch({
+                                            type: 'OPEN_LOGIN',
+                                        })
+                                    }
+                                >
+                                    Login
+                                </Button>
+                                {renderInstallBtn()}
+                            </React.Fragment>
                         ) : (
                             <UserIcons />
                         )}

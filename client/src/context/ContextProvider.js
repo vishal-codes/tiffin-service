@@ -6,7 +6,7 @@ import {
     useRef,
 } from 'react';
 import reducer from './reducer';
-import useContextDevTools from 'context-api-dev-tools-extension';
+// import useContextDevTools from 'context-api-dev-tools-extension';
 
 const INITIAL_STATE = {
     alert: {
@@ -44,7 +44,7 @@ export const useValue = () => {
 
 const ContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-    const devTools = useContextDevTools(dispatch);
+    // const devTools = useContextDevTools(dispatch);
     const mapRef = useRef();
     const containerRef = useRef();
     useEffect(() => {
@@ -57,16 +57,16 @@ const ContextProvider = ({ children }) => {
         }
     }, []);
 
-    useEffect(() => {
-        devTools.sendUpdatedState(state);
-    }, [state, devTools]);
+    // useEffect(() => {
+    //     devTools.sendUpdatedState(state);
+    // }, [state, devTools]);
 
     return (
-        <Context.Provider value={devTools.sendDispatch}>
-            <Context.Provider value={{ state, dispatch, mapRef, containerRef }}>
-                {children}
-            </Context.Provider>
+        // <Context.Provider value={devTools.sendDispatch}>
+        <Context.Provider value={{ state, dispatch, mapRef, containerRef }}>
+            {children}
         </Context.Provider>
+        // </Context.Provider>
     );
 };
 
