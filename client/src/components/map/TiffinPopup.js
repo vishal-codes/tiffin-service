@@ -13,7 +13,7 @@ const TiffinPopup = ({ popupInfo }) => {
     const { dispatch } = useValue();
 
     return (
-        <Card sx={{ maxWidth: { sm: '300px', md: '400px' } }}>
+        <Card>
             <ImageListItem sx={{ display: 'block' }}>
                 <ImageListItemBar
                     sx={{

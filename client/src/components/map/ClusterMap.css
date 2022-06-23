@@ -15,7 +15,14 @@
 }
 
 .mapboxgl-popup-content {
-    min-width: 200px !important;
+    min-width: 300px !important;
+    max-width: 400px !important;
+}
+
+@media (max-width: 600px) {
+    .mapboxgl-popup-content {
+        max-width: 300px !important;
+    }
 }
 
 .mapboxgl-popup-close-button {
@@ -32,11 +39,6 @@
 
 .mapboxgl-popup-content {
     padding: 0 !important;
-}
-
-.mapboxgl-popup-tip {
-    border-bottom-color: rgba(0, 0, 0, 0.5) !important;
-    border-top-color: rgba(0, 0, 0, 0.5) !important;
 }
 
 .swiper {
