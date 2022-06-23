@@ -44,6 +44,7 @@ const TiffinPopup = ({ popupInfo }) => {
                         <SwiperSlide key={url}>
                             <Box
                                 component='img'
+                                loading='lazy'
                                 src={url}
                                 alt='tiffin'
                                 sx={{

@@ -15,13 +15,22 @@ import {
 } from '@mui/material';
 import { Close, StarBorder } from '@mui/icons-material';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectCoverflow, Lazy, Navigation, Zoom } from 'swiper';
+import {
+    Autoplay,
+    EffectCoverflow,
+    Lazy,
+    Navigation,
+    Zoom,
+    Pagination,
+} from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/lazy';
 import 'swiper/css/zoom';
 import './swipper.css';
+
+import 'swiper/css/pagination';
 
 import { useValue } from '../../context/ContextProvider';
 
@@ -76,20 +85,24 @@ const Tiffin = () => {
             </AppBar>
             <Container sx={{ pt: 5 }}>
                 <Swiper
+                    style={{
+                        '--swiper-navigation-color': '#fff',
+                        '--swiper-pagination-color': '#fff',
+                    }}
+                    zoom={true}
+                    navigation={true}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    autoplay={true}
                     modules={[
                         Autoplay,
                         EffectCoverflow,
+                        Zoom,
                         Lazy,
                         Navigation,
-                        Zoom,
+                        Pagination,
                     ]}
-                    centeredSlides
-                    slidesPerView={2}
-                    grabCursor
-                    navigation
-                    autoplay
-                    lazy
-                    zoom
                     effect='coverflow'
                     coverflowEffect={{
                         rotate: 50,
@@ -102,7 +115,11 @@ const Tiffin = () => {
                     {tiffin?.images.map((url) => (
                         <SwiperSlide key={url}>
                             <div className='swiper-zoom-container'>
-                                <img src={url} alt={tiffin?.title} />
+                                <img
+                                    loading='lazy'
+                                    src={url}
+                                    alt={tiffin?.title}
+                                />
                             </div>
                         </SwiperSlide>
                     ))}

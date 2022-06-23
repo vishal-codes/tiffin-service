@@ -9,6 +9,6 @@
 
 .swiper-slide img {
     width: 100%;
-    max-height: 400px;
-    object-fit: cover;
+    min-height: 300px;
+    object-fit: contain;
 }

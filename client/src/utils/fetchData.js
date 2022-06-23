@@ -25,7 +25,7 @@ const fetchData = async (
             payload: {
                 open: true,
                 severity: 'error',
-                message: error.message,
+                message: 'Failed to fetch, Please try again in 2 minutes',
             },
         });
         console.log(error);
