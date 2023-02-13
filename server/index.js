@@ -36,10 +36,11 @@ app.use((req, res) => {
 
 const startServer = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_CONNECT);
-        app.listen(port, () =>
-            console.log(`Server listening on port: ${port}`)
-        );
+        mongoose.connect(process.env.MONGO_CONNECT).then(() => {
+            app.listen(port, () =>
+                console.log(`Server listening on port: ${port}`)
+            );
+        });
     } catch (error) {
         console.log(error);
     }
