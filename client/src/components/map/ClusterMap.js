@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Paper, Tooltip } from '@mui/material';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup, GeolocateControl } from 'react-map-gl';
 import Supercluster from 'supercluster';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -71,7 +71,7 @@ const ClusterMap = () => {
             initialViewState={{
                 longitude: -117.885182,
                 latitude: 33.881645,
-                zoom: 10,
+                zoom: 3.5,
             }}
             mapStyle='mapbox://styles/mapbox/streets-v11'
             ref={mapRef}
@@ -102,7 +102,7 @@ const ClusterMap = () => {
                                         supercluster.getClusterExpansionZoom(
                                             cluster.id
                                         ),
-                                        20
+                                        15
                                     );
                                     mapRef.current.flyTo({
                                         center: [longitude, latitude],
@@ -152,6 +152,24 @@ const ClusterMap = () => {
                     <TiffinPopup {...{ popupInfo }} />
                 </Popup>
             )}
+            {/* <NavigationControl position='bottom-right' /> */}
+            <GeolocateControl
+                style={{
+                    marginTop: '5rem',
+                    marginLeft: '1rem',
+                }}
+                // position='bottom-center'
+                trackUserLocation
+                onGeolocate={(e) =>
+                    dispatch({
+                        type: 'UPDATE_LOCATION',
+                        payload: {
+                            lng: e.coords.longitude,
+                            lat: e.coords.latitude,
+                        },
+                    })
+                }
+            />
         </ReactMapGL>
     );
 };
