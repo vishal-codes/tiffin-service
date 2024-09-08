@@ -145,12 +145,12 @@ const Tiffin = () => {
                     >
                         <Box>
                             <Typography variant='h6' component='span'>
-                                {'Price per month: '}
+                                {'Price per day: '}
                             </Typography>
                             <Typography component='span'>
                                 {tiffin?.price === 0
                                     ? 'Free Tiffin'
-                                    : ' ₹' + tiffin?.price}
+                                    : ' $' + tiffin?.price}
                             </Typography>
                         </Box>
                         <Box

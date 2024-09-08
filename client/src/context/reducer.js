@@ -16,7 +16,7 @@ const reducer = (state, action) => {
                 ...state,
                 addressFilter: null,
                 filteredTiffins: state.tiffins,
-                priceFilter: 10000,
+                priceFilter: 30,
             };
 
         case 'UPDATE_ALERT':
@@ -73,7 +73,7 @@ const reducer = (state, action) => {
                 ...state,
                 tiffins: action.payload,
                 addressFilter: null,
-                priceFilter: 10000,
+                priceFilter: 30,
                 filteredTiffins: action.payload,
             };
 
@@ -118,7 +118,7 @@ const applyFilter = (tiffins, address, price) => {
             return lngDifference <= 1 && latDifference <= 1;
         });
     }
-    if (price < 10000) {
+    if (price < 30) {
         filteredTiffins = filteredTiffins.filter(
             (tiffin) => tiffin.price <= price
         );

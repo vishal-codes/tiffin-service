@@ -49,7 +49,7 @@ const Tiffins = () => {
                                 title={
                                     tiffin.price === 0
                                         ? 'Free Tiffin'
-                                        : '₹' + tiffin?.price
+                                        : '$' + tiffin?.price
                                 }
                                 actionIcon={
                                     <Tooltip

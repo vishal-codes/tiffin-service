@@ -64,7 +64,7 @@ const AddDetails = () => {
                     <FormControlLabel
                         value={1}
                         control={<Radio />}
-                        label='Charges'
+                        label='Price Per day'
                     />
                     {Boolean(costType) && (
                         <TextField
@@ -74,14 +74,14 @@ const AddDetails = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position='start'>
-                                        ₹
+                                        $
                                     </InputAdornment>
                                 ),
                             }}
                             inputProps={{
                                 type: 'number',
-                                min: 1000,
-                                max: 10000,
+                                min: 5,
+                                max: 30,
                             }}
                             value={price}
                             onChange={handlePriceChange}

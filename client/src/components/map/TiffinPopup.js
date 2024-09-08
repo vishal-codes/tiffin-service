@@ -21,7 +21,7 @@ const TiffinPopup = ({ popupInfo }) => {
                             'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%), rgba(0,0,0,0) 100%)',
                         zIndex: 2,
                     }}
-                    title={price === 0 ? 'Free Tiffin ' : ' ₹' + price}
+                    title={price === 0 ? 'Free Tiffin ' : ' $' + price}
                     position='top'
                 />
                 <ImageListItemBar

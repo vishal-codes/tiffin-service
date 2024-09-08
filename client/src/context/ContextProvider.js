@@ -30,7 +30,7 @@ const INITIAL_STATE = {
     },
     location: { lng: 0, lat: 0 },
     tiffins: [],
-    priceFilter: 10000,
+    priceFilter: 30,
     addressFilter: null,
     filteredTiffins: [],
     tiffin: null,

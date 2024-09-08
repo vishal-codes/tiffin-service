@@ -3,9 +3,9 @@ import React from 'react';
 import { useValue } from '../../context/ContextProvider';
 
 const marks = [
-    { value: 1000, label: '₹1000' },
-    { value: 5000, label: '₹5000' },
-    { value: 10000, label: '₹10000' },
+    { value: 5, label: '$5' },
+    { value: 17, label: '$17' },
+    { value: 30, label: '$30' },
 ];
 
 const PriceSlider = () => {
@@ -15,11 +15,11 @@ const PriceSlider = () => {
     } = useValue();
     return (
         <Box sx={{ mt: 5 }}>
-            <Typography>Max Price: {'₹ ' + priceFilter}</Typography>
+            <Typography>Max Price: {'$ ' + priceFilter}</Typography>
             <Slider
-                min={1000}
-                max={10000}
-                defaultValue={10000}
+                min={5}
+                max={30}
+                defaultValue={15}
                 valueLabelDisplay='auto'
                 marks={marks}
                 value={priceFilter}
