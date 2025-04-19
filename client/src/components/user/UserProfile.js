@@ -13,7 +13,7 @@ import {
 import { Close, Send } from '@mui/icons-material';
 
 import { useValue } from '../../context/ContextProvider';
-import { updateProfile } from '../../actions/user';
+import { deleteUser, updateProfile } from '../../actions/user';
 
 const UserProfile = () => {
     const {
@@ -101,6 +101,28 @@ const UserProfile = () => {
                         />
                     </label>
                 </DialogContent>
+                <DialogContentText
+                    sx={{
+                        color: 'red',
+                        fontSize: '0.8rem',
+                        textAlign: 'center',
+                        mt: 1,
+                    }}
+                >
+                    <Button
+                        onClick={() => {
+                            deleteUser(currentUser, dispatch);
+                        }}
+                        variant='outlined'
+                        color='error'
+                    >
+                        Delete Account
+                    </Button>
+                    <br />
+                    <span style={{ fontSize: '0.8rem' }}>
+                        This action is irreversible
+                    </span>
+                </DialogContentText>
                 <DialogActions sx={{ px: '19px' }}>
                     <Button
                         type='submit'

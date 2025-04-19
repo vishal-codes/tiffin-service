@@ -108,3 +108,39 @@ export const updateProfile = async (currentUser, updateFields, dispatch) => {
     }
     dispatch({ type: 'END_LOADING' });
 };
+
+export const deleteUser = async (currentUser, dispatch) => {
+    dispatch({ type: 'START_LOADING' });
+    const result = await fetchData(
+        {
+            url: url + '/deleteUser',
+            token: currentUser.token,
+        },
+        dispatch
+    );
+    dispatch({ type: 'END_LOADING' });
+    console.log(result);
+    if (result) {
+        dispatch({
+            type: 'UPDATE_ALERT',
+            payload: {
+                open: true,
+                severity: 'success',
+                message: 'Your account has been deleted successfully!',
+            },
+        });
+        dispatch({
+            type: 'UPDATE_USER',
+            payload: null,
+        });
+    } else {
+        dispatch({
+            type: 'UPDATE_ALERT',
+            payload: {
+                open: true,
+                severity: 'error',
+                message: 'Failed to delete your account, please try again!',
+            },
+        });
+    }
+};

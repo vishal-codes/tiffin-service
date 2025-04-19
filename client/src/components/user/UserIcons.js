@@ -16,7 +16,7 @@ const UserIcons = () => {
 
     return (
         <Box>
-            <IconButton size='large' color='inherit'>
+            {/* <IconButton size='large' color='inherit'>
                 <Badge color='error' badgeContent={5}>
                     <Mail />
                 </Badge>
@@ -25,7 +25,7 @@ const UserIcons = () => {
                 <Badge color='error' badgeContent={5}>
                     <Notifications />
                 </Badge>
-            </IconButton>
+            </IconButton> */}
             <Tooltip title='Open User Settings'>
                 <IconButton onClick={(e) => setAnchorUserMenu(e.currentTarget)}>
                     <Avatar src={currentUser?.photoURL} alt={currentUser?.name}>

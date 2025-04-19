@@ -6,11 +6,13 @@ import {
     Paper,
 } from '@mui/material';
 import { AddLocationAlt, LocationOn, Restaurant } from '@mui/icons-material';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
 import ClusterMap from './map/ClusterMap';
 import Tiffins from './tiffin/Tiffins';
 import AddTiffins from './addTiffin/AddTiffins';
 import Protected from './protected/Protected';
+import UserTiffins from './user/UserTiffins';
 
 const BottomNavbar = () => {
     const [value, setValue] = useState(0);
@@ -27,6 +29,11 @@ const BottomNavbar = () => {
                     2: (
                         <Protected>
                             <AddTiffins setPage={setValue} />
+                        </Protected>
+                    ),
+                    3: (
+                        <Protected>
+                            <UserTiffins />
                         </Protected>
                     ),
                 }[value]
@@ -54,6 +61,10 @@ const BottomNavbar = () => {
                     <BottomNavigationAction
                         label='Add'
                         icon={<AddLocationAlt />}
+                    />
+                    <BottomNavigationAction
+                        label='My Tiffins'
+                        icon={<StorefrontIcon />}
                     />
                 </BottomNavigation>
             </Paper>

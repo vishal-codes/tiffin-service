@@ -96,3 +96,12 @@ export const updateProfile = tryCatch(async (req, res) => {
         result: { name, photoURL, token },
     });
 });
+
+export const deleteUser = tryCatch(async (req, res) => {
+    console.log(req.user);
+    await User.findByIdAndDelete(req.user.id);
+    res.status(200).json({
+        success: true,
+        result: 'User deleted successfully!',
+    });
+});

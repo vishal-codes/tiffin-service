@@ -120,7 +120,7 @@ const LogIn = () => {
                         />
                     )}
                 </DialogContent>
-                <DialogActions sx={{ p: '19px' }}>
+                <DialogActions sx={{ p: '20px', pb: '5px' }}>
                     <Button
                         type='submit'
                         variant='contained'
@@ -138,9 +138,9 @@ const LogIn = () => {
                     {isRegister ? 'LogIn' : 'Register'}
                 </Button>
             </DialogActions>
-            <DialogActions sx={{ justifyContent: 'center', p: '24px' }}>
+            {/* <DialogActions sx={{ justifyContent: 'center', p: '24px' }}>
                 <GoogleOneTapLogin />
-            </DialogActions>
+            </DialogActions> */}
         </Dialog>
     );
 };

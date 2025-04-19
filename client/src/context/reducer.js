@@ -99,6 +99,12 @@ const reducer = (state, action) => {
             localStorage.setItem('currentUser', JSON.stringify(action.payload));
             return { ...state, currentUser: action.payload };
 
+        case 'UPDATE_PROFILE_TIFFINS':
+            return {
+                ...state,
+                profileTiffins: action.payload,
+            };
+
         default:
             throw new Error('NO matched action!');
     }
