@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Card, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Lazy } from 'swiper';
@@ -11,6 +11,10 @@ import { useValue } from '../../context/ContextProvider';
 const TiffinPopup = ({ popupInfo }) => {
     const { title, description, price, images } = popupInfo;
     const { dispatch } = useValue();
+
+    useEffect(() => {
+        console.log('Popup Info:', popupInfo);
+    }, [popupInfo]);
 
     return (
         <Card>

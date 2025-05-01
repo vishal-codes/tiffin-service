@@ -54,20 +54,63 @@ const Tiffin = () => {
 
     useEffect(() => {
         if (tiffin) {
+            dispatch({
+                type: 'START_LOADING',
+            });
+
             const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${tiffin.lng},${tiffin.lat}.json?access_token=${process.env.REACT_APP_MAP_TOKEN}`;
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => setAddress(data.features[0]));
             console.log(tiffin);
+
+            async function getTiffins(dispatch) {
+                await fetch(
+                    `${process.env.REACT_APP_SERVER_URL}/tiffin/bytiffin/${tiffin.tiffinId}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${currentUser?.token}`,
+                        },
+                    }
+                )
+                    .then((response) => response.json())
+                    .then((result) => {
+                        if (result.success) {
+                            dispatch({
+                                type: 'UPDATE_TIFFIN',
+                                payload: result.result,
+                            });
+                        } else {
+                            dispatch({
+                                type: 'UPDATE_ALERT',
+                                payload: {
+                                    open: 'true',
+                                    severity: 'error',
+                                    message: result.message,
+                                },
+                            });
+                        }
+                    });
+            }
+
+            if (!tiffin.images || !tiffin.likes) {
+                getTiffins(dispatch);
+            }
+
             console.log(currentUser);
-            const likedByUser = tiffin.likes.some(
+            const likedByUser = tiffin?.likes?.some(
                 (like) => like.uid == currentUser?.id
             );
             setLikedByUser(likedByUser);
-            const dislikedByUser = tiffin.dislikes.some(
+            const dislikedByUser = tiffin?.dislikes?.some(
                 (dislike) => dislike.uid == currentUser?.id
             );
             setDislikedByUser(dislikedByUser);
+            dispatch({
+                type: 'END_LOADING',
+            });
         }
     }, [tiffin]);
 
@@ -332,7 +375,7 @@ const Tiffin = () => {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    {tiffin?.likes.length}
+                                    {tiffin?.likes?.length}
                                 </Typography>
                             </Box>
                             <Box
@@ -380,7 +423,7 @@ const Tiffin = () => {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    {tiffin?.dislikes.length}
+                                    {tiffin?.dislikes?.length}
                                 </Typography>
                             </Box>
                         </Box>
