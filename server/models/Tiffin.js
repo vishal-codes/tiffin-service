@@ -42,6 +42,38 @@ const tiffinSchema = mongoose.Schema(
             type: String,
             default: '',
         },
+        likes: [
+            {
+                uid: {
+                    type: String,
+                    required: true,
+                },
+                uName: {
+                    type: String,
+                    required: true,
+                },
+                uPhoto: {
+                    type: String,
+                    default: '',
+                },
+            },
+        ],
+        dislikes: [
+            {
+                uid: {
+                    type: String,
+                    required: true,
+                },
+                uName: {
+                    type: String,
+                    required: true,
+                },
+                uPhoto: {
+                    type: String,
+                    default: '',
+                },
+            },
+        ],
     },
     { timestamps: true }
 );

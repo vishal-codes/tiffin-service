@@ -23,10 +23,12 @@ const UserTiffins = () => {
 
     useEffect(() => {
         const fetchTiffins = async () => {
+            dispatch({ type: 'START_LOADING' });
             const result = await getUserTiffins(currentUser, dispatch);
             if (result) {
                 setTiffins(result);
             }
+            dispatch({ type: 'END_LOADING' });
         };
         fetchTiffins();
     }, [currentUser, dispatch]);

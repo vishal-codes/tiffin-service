@@ -13,7 +13,11 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material';
-import { Close, StarBorder } from '@mui/icons-material';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import Close from '@mui/icons-material/Close';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Autoplay,
@@ -40,11 +44,13 @@ const Transition = forwardRef((props, ref) => {
 
 const Tiffin = () => {
     const {
-        state: { tiffin },
+        state: { tiffin, currentUser },
         dispatch,
     } = useValue();
 
     const [address, setAddress] = useState(null);
+    const [likedByUser, setLikedByUser] = useState(false);
+    const [dislikedByUser, setDislikedByUser] = useState(false);
 
     useEffect(() => {
         if (tiffin) {
@@ -52,6 +58,16 @@ const Tiffin = () => {
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => setAddress(data.features[0]));
+            console.log(tiffin);
+            console.log(currentUser);
+            const likedByUser = tiffin.likes.some(
+                (like) => like.uid == currentUser?.id
+            );
+            setLikedByUser(likedByUser);
+            const dislikedByUser = tiffin.dislikes.some(
+                (dislike) => dislike.uid == currentUser?.id
+            );
+            setDislikedByUser(dislikedByUser);
         }
     }, [tiffin]);
 
@@ -60,6 +76,116 @@ const Tiffin = () => {
             type: 'UPDATE_TIFFIN',
             payload: null,
         });
+    };
+
+    const likeTiffin = async () => {
+        if (likedByUser) {
+            dispatch({
+                type: 'UPDATE_ALERT',
+                payload: {
+                    open: 'true',
+                    severity: 'error',
+                    message: 'You have already liked this tiffin',
+                },
+            });
+            return;
+        }
+        if (dislikedByUser) {
+            dispatch({
+                type: 'UPDATE_ALERT',
+                payload: {
+                    open: 'true',
+                    severity: 'error',
+                    message: 'You have already disliked this tiffin',
+                },
+            });
+            return;
+        }
+        const { id: uid, name: uName, photoURL: uPhoto } = tiffin;
+        await fetch(
+            `${process.env.REACT_APP_SERVER_URL}/tiffin/like/${tiffin._id}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${currentUser?.token}`,
+                },
+                body: JSON.stringify({ uid, uName, uPhoto }),
+            }
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.success) {
+                    dispatch({
+                        type: 'UPDATE_TIFFIN',
+                        payload: result.result,
+                    });
+                } else {
+                    dispatch({
+                        type: 'UPDATE_ALERT',
+                        payload: {
+                            open: 'true',
+                            severity: 'error',
+                            message: result.message,
+                        },
+                    });
+                }
+            });
+    };
+
+    const dislikeTiffin = async () => {
+        if (likedByUser) {
+            dispatch({
+                type: 'UPDATE_ALERT',
+                payload: {
+                    open: 'true',
+                    severity: 'error',
+                    message: 'You have already liked this tiffin',
+                },
+            });
+            return;
+        }
+        if (dislikedByUser) {
+            dispatch({
+                type: 'UPDATE_ALERT',
+                payload: {
+                    open: 'true',
+                    severity: 'error',
+                    message: 'You have already disliked this tiffin',
+                },
+            });
+            return;
+        }
+        const { id: uid, name: uName, photoURL: uPhoto } = tiffin;
+        await fetch(
+            `${process.env.REACT_APP_SERVER_URL}/tiffin/dislike/${tiffin._id}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${currentUser?.token}`,
+                },
+                body: JSON.stringify({ uid, uName, uPhoto }),
+            }
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.success) {
+                    dispatch({
+                        type: 'UPDATE_TIFFIN',
+                        payload: result.result,
+                    });
+                } else {
+                    dispatch({
+                        type: 'UPDATE_ALERT',
+                        payload: {
+                            open: 'true',
+                            severity: 'error',
+                            message: result.message,
+                        },
+                    });
+                }
+            });
     };
 
     return (
@@ -155,19 +281,108 @@ const Tiffin = () => {
                         </Box>
                         <Box
                             sx={{
-                                diaplay: 'flex',
+                                display: 'flex',
                                 alignItems: 'center',
+                                gap: 2,
+                                borderRadius: 1,
                             }}
                         >
-                            <Typography variant='h6' component='span'>
-                                {'Ratings: '}
-                            </Typography>
-                            <Rating
-                                name='tiffin-ratings'
-                                defaultValue={3.5}
-                                precision={0.5}
-                                emptyIcon={<StarBorder />}
-                            />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                    padding: 1,
+                                    borderRadius: 5,
+                                    color: 'success.main',
+                                    '&:hover': {
+                                        backgroundColor: 'action.hover',
+                                    },
+                                }}
+                                onClick={likeTiffin}
+                            >
+                                {likedByUser ? (
+                                    <ThumbUpIcon
+                                        sx={{
+                                            fontSize: '1.5rem',
+                                            transition: 'transform 0.2s',
+                                            '&:hover': {
+                                                transform: 'scale(1.1)',
+                                                cursor: 'pointer',
+                                            },
+                                        }}
+                                    />
+                                ) : (
+                                    <ThumbUpOffAltIcon
+                                        sx={{
+                                            fontSize: '1.5rem',
+                                            transition: 'transform 0.2s',
+                                            '&:hover': {
+                                                transform: 'scale(1.1)',
+                                                cursor: 'pointer',
+                                            },
+                                        }}
+                                    />
+                                )}
+                                <Typography
+                                    variant='body1'
+                                    sx={{
+                                        fontWeight: 500,
+                                        minWidth: 20,
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    {tiffin?.likes.length}
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                    color: 'error.main',
+                                    padding: 1,
+                                    borderRadius: 5,
+                                    '&:hover': {
+                                        backgroundColor: 'action.hover',
+                                    },
+                                }}
+                                onClick={dislikeTiffin}
+                            >
+                                {dislikedByUser ? (
+                                    <ThumbDownIcon
+                                        sx={{
+                                            fontSize: '1.5rem',
+                                            transition: 'transform 0.2s',
+                                            '&:hover': {
+                                                transform: 'scale(1.1)',
+                                                cursor: 'pointer',
+                                            },
+                                        }}
+                                    />
+                                ) : (
+                                    <ThumbDownOffAltIcon
+                                        sx={{
+                                            fontSize: '1.5rem',
+                                            transition: 'transform 0.2s',
+                                            '&:hover': {
+                                                transform: 'scale(1.1)',
+                                                cursor: 'pointer',
+                                            },
+                                        }}
+                                    />
+                                )}
+                                <Typography
+                                    variant='body1'
+                                    sx={{
+                                        fontWeight: 500,
+                                        minWidth: 20,
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    {tiffin?.dislikes.length}
+                                </Typography>
+                            </Box>
                         </Box>
                     </Stack>
                     <Stack
